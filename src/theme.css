@@ -1,0 +1,49 @@
+/* src/theme.css */
+
+/* Define the color palette as global variables */
+:root {
+  /* Raw Palette */
+  --palette-dark-green: #2c3e2c;
+  --palette-medium-green: #527141;
+  --palette-green: #77a361;
+  --palette-light-green: rgb(184, 222, 166);
+  --palette-extra-light-green: #d0dfc8;
+  --palette-white: #ffffff;
+  --palette-invalid-red: #e74c3c;
+
+  /* Semantic Variables - Light Theme (Default) */
+  --bg-main: var(--palette-extra-light-green);
+  --bg-card: var(--palette-white);
+  --text-primary: var(--palette-dark-green);
+  --text-secondary: var(--palette-medium-green);
+
+  --board-border: var(--palette-dark-green);
+  --cell-border: var(--palette-light-green);
+  --cell-bg: var(--palette-white);
+  --cell-bg-initial: var(--palette-extra-light-green);
+  --cell-bg-initial-highlighted: var(--palette-light-green);
+  /* Blended initial + highlight */
+  --cell-bg-selected: var(--palette-green);
+  --cell-bg-highlight: var(--palette-light-green);
+  /* palette-medium-green with opacity for row/col */
+  /* palette-green with opacity */
+  --cell-bg-same-number: var(--palette-green);
+  --cell-text-same-number: var(--palette-dark-green);
+  /* Dark text for better contrast */
+  --cell-text-selected: var(--palette-dark-green);
+
+  --btn-primary-bg: var(--palette-medium-green);
+  --btn-primary-text: var(--palette-white);
+  --btn-primary-hover: var(--palette-dark-green);
+
+  --btn-secondary-bg: var(--palette-light-green);
+  --btn-secondary-text: var(--palette-dark-green);
+  --btn-secondary-hover: var(--palette-green);
+
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --radius-card: 1rem;
+  --radius-btn: 0.5rem;
+  --card-border: transparent;
+}
+
+/* Dark Theme Overrides */
