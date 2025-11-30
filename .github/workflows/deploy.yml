@@ -6,8 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
+  contents: write
   id-token: write
 
 concurrency:
@@ -15,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,18 +32,19 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
+      - name: Deploy to Root
+        run: |
+          # Configure Git
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Move dist contents to root
+          mv dist/index.dev.html dist/index.html
+          cp -r dist/* .
+          rm -rf dist
+          
+          # Stage and commit changes
+          git add .
+          git commit -m "Deploy build artifacts to root [skip ci]" || echo "No changes to commit"
+          git push origin main
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
