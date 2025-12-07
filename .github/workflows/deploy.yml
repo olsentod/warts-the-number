@@ -40,6 +40,7 @@ jobs:
           
           # Move dist contents to root
           mv dist/index.dev.html dist/index.html
+          cp dist/index.html dist/404.html
           cp -r dist/* .
           rm -rf dist
           

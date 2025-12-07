@@ -10,6 +10,7 @@ interface SavedGame {
     isSolved: boolean;
     notes?: number[][][];
     timer?: number;
+    mistakes?: number;
 }
 
 interface SavedGamesProps {

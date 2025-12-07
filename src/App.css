@@ -1,11 +1,14 @@
+body {
+  background-color: var(--bg-main);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
 .app-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: var(--bg-main);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   color: var(--text-primary);
   padding: 20px;
   transition: background-color 0.3s ease;
@@ -13,13 +16,13 @@
 
 .main-card {
   background-color: var(--bg-card);
-  padding: 2rem;
+  padding: 1rem 2rem;
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   max-width: 600px;
   width: 100%;
   border: 1px solid var(--card-border);
@@ -129,18 +132,7 @@ h1 {
   justify-content: center;
 }
 
-.difficulty-selector {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-  width: 100%;
-  justify-content: center;
-}
 
-.difficulty-selector button.active {
-  background-color: var(--btn-primary-bg);
-  color: var(--btn-primary-text);
-}
 
 button {
   padding: 0.6rem 1.2rem;
@@ -157,43 +149,51 @@ button {
   color: var(--btn-primary-text);
 }
 
-.btn-primary:hover {
-  background-color: var(--btn-primary-hover);
-}
-
 .btn-secondary {
   background-color: var(--btn-secondary-bg);
   color: var(--btn-secondary-text);
 }
 
-.btn-secondary:hover {
-  background-color: var(--btn-secondary-hover);
+@media (hover: hover) {
+  .btn-primary:hover {
+    background-color: var(--btn-primary-hover);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--btn-secondary-hover);
+  }
 }
 
 /* Number Pad */
 .number-pad {
-  display: flex;
-  gap: 0.8rem;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 1rem;
 }
 
 .number-pad-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.2rem;
+  gap: 0.1rem;
+  width: 100%;
+  height: 100%;
 }
 
 .number-pad button {
-  width: 45px;
-  height: 45px;
+  width: 100%;
+  flex: 1;
+  min-height: 40px;
+  /* Ensure touch target size */
   padding: 0;
-  border-radius: 50%;
+  border-radius: var(--radius-btn);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   background-color: var(--bg-main);
   color: var(--text-primary);
@@ -201,10 +201,16 @@ button {
   transition: all 0.2s ease;
 }
 
-.number-pad button:hover:not(:disabled) {
-  background-color: var(--cell-bg-selected);
-  border-color: var(--cell-bg-selected);
-  transform: translateY(-2px);
+.number-pad button:focus {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .number-pad button:hover:not(:disabled) {
+    background-color: var(--cell-bg-selected);
+    border-color: var(--cell-bg-selected);
+    transform: translateY(-2px);
+  }
 }
 
 .number-pad button.selected {
@@ -227,18 +233,57 @@ button {
   font-weight: 500;
 }
 
+/* Notation Button */
+.notation-btn {
+  grid-column: 4;
+  grid-row: 1 / span 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  background-color: var(--bg-main);
+  color: var(--text-secondary);
+  border: 1px solid var(--cell-border);
+  border-radius: var(--radius-btn);
+  transition: all 0.2s ease;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+
+.notation-btn:hover {
+  background-color: var(--bg-card);
+  border-color: var(--text-secondary);
+}
+
+.notation-btn.active {
+  background-color: var(--palette-green);
+  color: white;
+  border-color: var(--palette-green);
+}
+
+.notation-btn .label {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.notation-btn .status {
+  font-size: 0.7rem;
+  font-weight: 500;
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
   .app-container {
-    padding: 0;
+    padding: 10px;
   }
 
   .main-card {
-    padding: 0.5rem;
-    border-radius: 0;
-    min-height: 100vh;
-    border: none;
-    box-shadow: none;
+    padding: 1rem;
+    min-height: auto;
     justify-content: center;
     gap: 0.5rem;
   }
@@ -273,8 +318,16 @@ button {
   }
 
   .number-pad button {
-    width: 36px;
-    height: 36px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .back-text {
+    display: none;
+  }
+
+  .game-title {
+    font-size: 1.2rem;
   }
 }
 
@@ -536,14 +589,38 @@ button {
   /* Optional: make text red while shaking */
 }
 
+/* Bubble Animation */
+@keyframes bubble {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+    background-color: var(--palette-green);
+    border-radius: 10%;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+  }
+
+  100% {
+    transform: scale(1);
+    border-radius: 0;
+  }
+}
+
+.cell.bubble {
+  animation: bubble 0.6s ease-in-out;
+  z-index: 10;
+}
+
 /* Mistake Counter & Timer Row */
 .header-stats {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  gap: 1rem;
   align-items: center;
-  margin-top: 0.25rem;
-  padding: 0 0.25rem;
+  margin: 0;
+  padding: 0;
 }
 
 .mistake-counter {
@@ -594,9 +671,15 @@ button {
   transition: all 0.2s ease;
 }
 
-.btn-icon:hover {
-  background-color: var(--bg-main);
-  color: var(--text-primary);
+.btn-icon:focus {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .btn-icon:hover {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+  }
 }
 
 .btn-icon.active {
@@ -604,94 +687,7 @@ button {
   background-color: rgba(46, 204, 113, 0.1);
 }
 
-.hamburger-btn {
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  cursor: pointer;
-  color: var(--text-primary);
-  border-radius: var(--radius-btn);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
 
-.hamburger-btn:hover,
-.hamburger-btn.active {
-  background-color: var(--bg-main);
-}
-
-.menu-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  width: 280px;
-  background-color: var(--bg-card);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-card);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  padding: 1rem;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  animation: slideDown 0.2s ease-out;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.menu-section h3 {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  margin: 0 0 0.75rem 0;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-}
-
-.menu-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-}
-
-.menu-actions button {
-  width: 100%;
-  padding: 0.5rem;
-  font-size: 0.85rem;
-}
-
-/* Adjust existing styles */
-.difficulty-selector {
-  margin-bottom: 0;
-  flex-wrap: wrap;
-}
-
-.difficulty-selector button {
-  flex: 1;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.8rem;
-}
-
-/* Responsive adjustments */
-@media (max-width: 400px) {
-  .menu-dropdown {
-    width: 100%;
-    right: 0;
-    left: 0;
-  }
-}
 
 /* Pause Styles */
 .sudoku-board-container {
@@ -733,4 +729,163 @@ button {
 .resume-btn:hover {
   background-color: var(--btn-primary-hover);
   transform: translateY(-2px);
+}
+
+/* Home Screen Styles */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--bg-main);
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  max-width: 800px;
+  width: 100%;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.home-title {
+  font-size: 3.5rem;
+  color: var(--palette-dark-green);
+  text-align: center;
+  margin: 0;
+  text-shadow: 2px 2px 0px var(--palette-light-green);
+}
+
+.home-subtitle {
+  font-size: 1.5rem;
+  color: var(--palette-medium-green);
+  margin: 0;
+  text-align: center;
+}
+
+.continue-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.continue-btn {
+  font-size: 1.2rem;
+  padding: 1rem 3rem;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+}
+
+.game-modes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.game-mode-card {
+  background-color: var(--bg-card);
+  border: 2px solid var(--cell-border);
+  border-radius: var(--radius-card);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-card);
+}
+
+.game-mode-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--palette-green);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.game-mode-card h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--palette-dark-green);
+}
+
+.game-mode-card p {
+  margin: 0;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .home-title {
+    font-size: 2.5rem;
+  }
+}
+
+.game-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  min-height: 40px;
+  /* Ensure height for absolute button */
+}
+
+.game-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--palette-dark-green);
+  margin: 0;
+  text-align: center;
+}
+
+.back-button {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  background: none;
+  border: none;
+  border-radius: var(--radius-btn);
+  color: var(--text-secondary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: none;
+  z-index: 1;
+}
+
+.back-button:hover {
+  color: var(--text-primary);
+  transform: translateX(-2px);
 }

@@ -6,11 +6,12 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
   base: './',
   build: {
+    outDir: 'dist',
     rollupOptions: {
       input: {
-        main: 'index.dev.html'
-      }
-    }
+        main: 'index.dev.html',
+      },
+    },
   },
   plugins: [
     react(),
